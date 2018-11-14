@@ -7,14 +7,14 @@
 
 ## Development
 
-- Run the webpack watcher with `npm run dev`
-- In another terminal, run the server with `npm start`
-- Navigate to http://localhost:8080 in your browser
+1. Run the webpack watcher with `npm run dev`
+2. In another terminal, run the server with `npm start`
+3. Navigate to http://localhost:8080 in your browser
 
 ## Production
 
-- Build the website with `npm run build`
-- Run the server with `npm start`
+1. Build the website with `npm run build`
+2. Run the server with `npm start`
 
 # How to contribute
 
