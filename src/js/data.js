@@ -60,20 +60,68 @@ const options = {
 //   };
 // };
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(ms, resolve));
+}
+
+const queryPrefix = 'http://data.preservenice.org';
+
 export async function queryItem(id) {
-  const url = `http://data.preservenice.org/items/${id}`;
+  const url = `${queryPrefix}/items/${id}`;
   const res = await fetch(url);
   const data = await res.json();
   return data;
 }
 
-export async function* queryAll() {
+export async function* querySample() {
   try {
-    console.log('Requesting data');
-    const res = await fetch('http://data.preservenice.org/all');
+    console.log('Requesting sample');
+    const res = await fetch(`${queryPrefix}/sample`);
     console.log('Response received');
     const data = await res.json();
-    yield* data;
+
+    // Check if data is empty
+    // This is done because if the web server was sleeping when we requested the data, it will wake
+    // and be unable to produce accurate results until it has queried the ckdata database. To solve
+    // this problem we just keep trying until we get results
+    if (data.length === undefined) {
+      console.log('Invalid group queried');
+    } else if (data.length === 0) {
+      // Try again 5 seconds later
+      console.log('No data received; trying');
+      await sleep(5000);
+      yield* querySample();
+    } else {
+      // We received results
+      yield* data;
+    }
+  } catch (ex) {
+    console.log(ex);
+  }
+}
+
+export async function* queryAll() {
+  try {
+    console.log('Requesting all data');
+    const res = await fetch(`${queryPrefix}/all`);
+    console.log('Response received');
+    const data = await res.json();
+
+    // Check if data is empty
+    // This is done because if the web server was sleeping when we requested the data, it will wake
+    // and be unable to produce accurate results until it has queried the ckdata database. To solve
+    // this problem we just keep trying until we get results
+    if (data.length === undefined) {
+      console.log('Invalid group queried');
+    } else if (data.length === 0) {
+      // Try again 5 seconds later
+      console.log('No data received; trying');
+      await sleep(5000);
+      yield* queryAll();
+    } else {
+      // We received results
+      yield* data;
+    }
   } catch (ex) {
     console.log(ex);
   }
@@ -84,7 +132,22 @@ export async function* queryGroupsAsync(types = groups) {
     try {
       const response = await fetch(queryUrl(group));
       const data = await response.json();
-      yield* data;
+
+      // Check if data is empty
+      // This is done because if the web server was sleeping when we requested the data, it will wake
+      // and be unable to produce accurate results until it has queried the ckdata database. To solve
+      // this problem we just keep trying until we get results
+      if (data.length === undefined) {
+        console.log('Invalid group queried');
+      } else if (data.length === 0) {
+        // Try again 5 seconds later
+        console.log('No data received; trying');
+        await sleep(5000);
+        yield* queryGroupsAsync(types);
+      } else {
+        // We received results
+        yield* data;
+      }
     } catch (ex) {
       console.log(ex);
     }

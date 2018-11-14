@@ -8,6 +8,7 @@ import { object, func } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { createArtifact } from '../artifact';
 import { asyncIterator } from 'lazy-iters';
+import { querySample } from '../data';
 
 function styles(theme) {
   return {
@@ -55,16 +56,6 @@ function styles(theme) {
       fontFamily: theme.typography.title.fontFamily
     }
   };
-}
-
-async function* querySample() {
-  try {
-    const res = await fetch('http://data.preservenice.org/sample');
-    const data = await res.json();
-    yield* data;
-  } catch (ex) {
-    console.log(ex);
-  }
 }
 
 class Home extends React.Component {
