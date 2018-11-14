@@ -50,11 +50,17 @@ function styles(theme) {
     },
     clearButton: {
       float: 'right'
+    },
+    tableRow: {
+      height: theme.spacing.unit * 4
+    },
+    tableCell: {
+      height: 'auto !important'
     }
   };
 }
 
-const rowsPerPage = 5;
+const rowsPerPage = 10;
 
 const defaultFilter = {
   name: '',
@@ -232,11 +238,17 @@ class Search extends React.Component {
       .map(artifact => {
         const { id, name, type, sestiere, year } = artifact;
         return (
-          <TableRow hover tabIndex={-1} key={id} onClick={onArtifactClick(artifact)}>
-            <TableCell>{name}</TableCell>
-            <TableCell>{type}</TableCell>
-            <TableCell>{sestiere}</TableCell>
-            <TableCell>{year}</TableCell>
+          <TableRow
+            hover
+            tabIndex={-1}
+            key={id}
+            onClick={onArtifactClick(artifact)}
+            className={classes.tableRow}
+          >
+            <TableCell className={classes.tableCell}>{name}</TableCell>
+            <TableCell className={classes.tableCell}>{type}</TableCell>
+            <TableCell className={classes.tableCell}>{sestiere}</TableCell>
+            <TableCell className={classes.tableCell}>{year}</TableCell>
           </TableRow>
         );
       })
