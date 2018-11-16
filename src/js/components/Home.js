@@ -36,8 +36,9 @@ function styles(theme) {
     },
     banner: {
       margin: 0,
-      background: 'url(/static/pano_2.jpg)',
+      background: 'url(/static/images/pano_small.jpg)',
       backgroundSize: 'cover',
+      backgroundPosition: '-300px 0px',
       padding: '120px'
     },
     bannerText: {
