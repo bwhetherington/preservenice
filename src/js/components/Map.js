@@ -63,6 +63,34 @@ const MapWrapper = withGoogleMap(props => (
   <GoogleMap defaultCenter={center} defaultZoom={zoom} {...props} />
 ));
 
+function createSize(w, h) {
+  return new google.maps.Size(w, h);
+}
+
+function createIcon(artifact) {
+  const { type } = artifact;
+  if (
+    type === 'Coat of Arms' ||
+    type === 'Cross' ||
+    type === 'Decoration' ||
+    type === 'Flagstaff Pedestal' ||
+    type === 'Fountain' ||
+    type === 'Symbol' ||
+    type === 'Fragment' ||
+    type === 'Inscription' ||
+    type === 'Patera' ||
+    type === 'Other' ||
+    type === 'Sculpture' ||
+    type === 'Street Altar'
+  ) {
+    return `${iconUrlPrefix}/${type}.svg`;
+  } else {
+    return undefined;
+  }
+}
+
+const iconUrlPrefix = '/static/icons';
+
 function renderArtifacts(artifacts, onArtifactClick) {
   return artifacts.map(artifact => {
     const { id, name, namePretty, position } = artifact;
@@ -73,6 +101,7 @@ function renderArtifacts(artifacts, onArtifactClick) {
         title={namePretty}
         position={position}
         onClick={onArtifactClick(artifact)}
+        icon={createIcon(artifact)}
       />
     );
   });

@@ -27,7 +27,8 @@ function styles(theme) {
     },
     icon: {
       height: 28,
-      margin: theme.spacing.unit
+      margin: theme.spacing.unit,
+      userSelect: 'all'
     },
     login: {
       marginLeft: theme.spacing.unit,
@@ -82,6 +83,10 @@ function renderLinks(selected, links) {
   ));
 }
 
+function home() {
+  location.href = '/home';
+}
+
 function Navbar(props) {
   const { classes, selected, position = 'sticky' } = props;
   return (
@@ -91,7 +96,9 @@ function Navbar(props) {
           PreserVenice
         </Typography> */}
         <span className={classes.toolbarTitle}>
-          <img src="/static/pv logo white.svg" className={classes.icon} />
+          <a href="/home">
+            <img src="/static/pv logo white.svg" className={classes.icon} />
+          </a>
         </span>
         <span className={classes.controls}>
           {renderLinks(selected, links)}
