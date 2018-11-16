@@ -81,7 +81,8 @@ function createIcon(artifact) {
     type === 'Patera' ||
     type === 'Other' ||
     type === 'Sculpture' ||
-    type === 'Street Altar'
+    type === 'Street Altar' ||
+    type === 'Relief'
   ) {
     return `${iconUrlPrefix}/${type}.svg`;
   } else {
