@@ -7,7 +7,8 @@ import {
   DialogContentText,
   DialogContent,
   DialogTitle,
-  IconButton
+  IconButton,
+  TextField
 } from '@material-ui/core';
 
 function styles(theme) {
@@ -19,7 +20,7 @@ function ArtifactFilter(props) {
   return (
     <Dialog fullScreen={fullScreen} open={open} onClose={onClose}>
       <DialogTitle>
-        {name}
+        Search
         <span className={classes.close}>
           <IconButton onClick={onClose}>
             <CloseIcon />
@@ -27,7 +28,9 @@ function ArtifactFilter(props) {
         </span>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText className={classes.description}>{description}</DialogContentText>
+        <TextField>
+
+        </TextField>
       </DialogContent>
       <DialogActions>
         <Button color="primary">Share</Button>
@@ -36,5 +39,23 @@ function ArtifactFilter(props) {
     </Dialog>
   );
 }
+
+/**
+ * Syntax:
+ * 
+ * fn square x = x * x;
+ * fn add x y = x + y;
+ * 
+ * fn do_something x y = {
+ *   let c = x ^ y;
+ *   println "c = {}" c;
+ *   c * x * y
+ * }
+ * 
+ * 
+ * 
+ * println "Hello world";
+ * let x = add 10 2;
+ */
 
 export default withMobileDialog()(withStyles(styles)(ArtifactFilter));

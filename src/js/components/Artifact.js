@@ -59,4 +59,4 @@ Artifact.propTypes = {
   artifact: object.isRequired
 };
 
-export default withMobileDialog({ breakpoint: 'md' })(withStyles(styles)(Artifact));
+export default withMobileDialog()(withStyles(styles)(Artifact));
