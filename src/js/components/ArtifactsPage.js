@@ -129,7 +129,7 @@ class ArtifactPage extends React.Component {
         ...filter,
         [type]: !filter[type]
       };
-      // this.queryArtifacts(newFilter);
+      this.queryArtifacts(newFilter);
     };
   }
 
@@ -140,27 +140,24 @@ class ArtifactPage extends React.Component {
     return Object.keys(filter).filter(key => filter[key]);
   }
 
-  queryArtifacts(filter) {
-    const types = this.filteredTypes(filter);
-    const filtered = iterator(this.state.artifacts)
-      .filter(({ type }) )
-    // let query;
-    // if (iterator(Object.values(filter)).all(id)) {
-    //   query = queryAll();
-    // } else {
-    //   const list = this.filteredTypes(filter);
-    //   const groups = filterGroups(list);
-    //   query = queryGroupsAsync(groups);
-    // }
-    // const artifacts = await asyncIterator(query)
-    //   .map(createArtifact)
-    //   .filter(hasValidCoords)
-    //   .collect();
-    // this.setState({
-    //   ...this.state,
-    //   filter,
-    //   artifacts
-    // });
+  async queryArtifacts(filter) {
+    let query;
+    if (iterator(Object.values(filter)).all(id)) {
+      query = queryAll();
+    } else {
+      const list = this.filteredTypes(filter);
+      const groups = filterGroups(list);
+      query = queryGroupsAsync(groups);
+    }
+    const artifacts = await asyncIterator(query)
+      .map(createArtifact)
+      .filter(hasValidCoords)
+      .collect();
+    this.setState({
+      ...this.state,
+      filter,
+      artifacts
+    });
   }
 
   /**
@@ -211,7 +208,7 @@ class ArtifactPage extends React.Component {
       <Page selected="map" fullScreen={true}>
         {filterDrawer}
         <div className={classes.content}>
-          <Map onArtifactClick={onArtifactClick} artifacts={this.state.shownArtifacts} />
+          <Map onArtifactClick={onArtifactClick} artifacts={this.state.artifacts} />
         </div>
       </Page>
     );
