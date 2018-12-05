@@ -52,7 +52,6 @@ function styles(theme) {
     content: {
       marginLeft: drawerWidth,
       height: '100%',
-      background: 'black',
       overflowY: 'hidden'
     }
   };

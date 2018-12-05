@@ -261,7 +261,6 @@ function styles(theme) {
     drawer: {
       width: drawerWidth,
       maxWidth: drawerWidth,
-      background: 'black',
       flexShrink: 0
     },
     drawerButton: {
