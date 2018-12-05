@@ -20,13 +20,13 @@ function styles(theme) {
     rootFullScreen: {
       height: '100%',
       maxWidth: '100%',
-      overflowY: 'hidden',
-      animation: `${fadeInID} 1s`
+      overflowY: 'hidden'
+      // animation: `${fadeInID} 1s`
     },
     root: {
       height: '100%',
-      maxWidth: '100%',
-      animation: `${fadeInID} ease-in 1`
+      maxWidth: '100%'
+      // animation: `${fadeInID} ease-in 1s`
     },
     fullScreen: {
       width: '100%',
