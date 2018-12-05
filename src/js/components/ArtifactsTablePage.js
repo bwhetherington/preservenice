@@ -21,6 +21,7 @@ import withArtifactDialog from './withArtifactDialog';
 import { queryAll } from '../data';
 
 import FilterDrawer from './FilterDrawer';
+import { takeOrElse } from '../util';
 
 const drawerWidth = 240;
 
@@ -108,7 +109,7 @@ class Search extends React.Component {
     loaded: false,
     page: 0,
     rowsPerPage,
-    filters: []
+    filters: takeOrElse(JSON.parse(window.sessionStorage.filters), [])
   };
 
   async componentWillMount() {
@@ -225,15 +226,17 @@ class Search extends React.Component {
     return iterator(data).filter(artifact => filterArtifact(artifact, filters, filterOptions));
   }
 
-  setFilters = filters =>
+  setFilters = filters => {
+    window.sessionStorage.filters = JSON.stringify(filters);
     this.setState({
       ...this.state,
       filters
     });
+  };
 
   render() {
     const { classes, onArtifactClick } = this.props;
-    const { page, rowsPerPage, loaded, data } = this.state;
+    const { page, rowsPerPage, loaded, filters } = this.state;
     const filteredArtifacts = this.filterArtifacts().collect();
     const renderedArtifacts = iterator(filteredArtifacts)
       .skip(page * rowsPerPage)
@@ -257,7 +260,7 @@ class Search extends React.Component {
       })
       .collect();
 
-    const drawer = <FilterDrawer onChange={this.setFilters} />;
+    const drawer = <FilterDrawer onChange={this.setFilters} filters={filters} />;
 
     return (
       <Page fullScreen={true} selected="artifacts">

@@ -39,7 +39,6 @@ function artifactAreaStyles(theme) {
 
 function ArtifactAreaInner(props) {
   const { classes, artifact } = props;
-  console.log(props);
 
   return (
     <div className={classes.content}>
@@ -265,7 +264,6 @@ class Donate extends React.Component {
     const { id } = this.props.match.params;
     if (id !== null && id !== undefined) {
       const item = await queryItem(id);
-      console.log(item);
       this.setState({
         ...this.state,
         artifact: createArtifact(item)

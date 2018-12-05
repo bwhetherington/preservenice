@@ -162,3 +162,11 @@ export const FilterType = {
   LT: '<',
   LTE: '<='
 };
+
+export function takeOrElse(val, def) {
+  if (val === null || val === undefined) {
+    return def;
+  } else {
+    return val;
+  }
+}

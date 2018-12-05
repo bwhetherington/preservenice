@@ -27,7 +27,7 @@ import {
   InputAdornment
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { id } from '../util';
+import { id, takeOrElse } from '../util';
 import { sestieri, types, FilterType } from '../artifact';
 
 const PropertyType = {
@@ -41,8 +41,6 @@ const propertyOptions = {
   fromGround: PropertyType.CM,
   year: PropertyType.AD
 };
-
-console.log(FilterType);
 
 const propertyComparisons = {
   sestiere: [FilterType.EQ, FilterType.NEQ],
@@ -243,7 +241,6 @@ function FilterChipInner(props) {
       <span className={classes.fillRest} />
     </span>
   );
-  console.log(classes);
   return (
     <Chip className={classes.chip} clickable onClick={onEdit} label={label} onDelete={onDelete} />
   );
@@ -286,7 +283,7 @@ class FilterDrawer extends React.Component {
     open: false,
     dialogOpen: false,
     dialogFilter: defaultFilterChipOptions,
-    filters: []
+    filters: this.props.filters
   };
 
   hide = () =>

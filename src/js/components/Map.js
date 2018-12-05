@@ -59,7 +59,7 @@ const options = {
   ]
 };
 
-// // These options enable a dark, featureless map
+// These options enable a dark, featureless map
 // const options = {
 //   styles: [
 //     {

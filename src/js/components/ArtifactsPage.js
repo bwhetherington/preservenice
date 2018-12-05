@@ -15,7 +15,7 @@ import {
   ListItemText,
   Checkbox
 } from '@material-ui/core';
-import { createMap, artifactTypes, FilterType } from '../util';
+import { createMap, artifactTypes, FilterType, takeOrElse } from '../util';
 import { queryGroupsAsync, filterGroups, queryAll } from '../data';
 import { createArtifact, filterArtifacts } from '../artifact';
 import { asyncIterator, iterator } from 'lazy-iters';
@@ -75,10 +75,14 @@ class ArtifactPage extends React.Component {
     showFilters: false,
     artifacts: [],
     shownArtifacts: [],
-    filters: []
+    filters: takeOrElse(JSON.parse(window.sessionStorage.getItem('filters')), [])
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.loadArtifacts();
+  }
+
+  async loadArtifacts() {
     const query = asyncIterator(queryAll());
     const artifacts = await query
       .map(createArtifact)
@@ -154,6 +158,7 @@ class ArtifactPage extends React.Component {
   }
 
   setFilters = filters => {
+    window.sessionStorage.setItem('filters', JSON.stringify(filters));
     const shownArtifacts = filterArtifacts(this.state.artifacts, filters);
     this.setState({
       ...this.state,
@@ -167,8 +172,9 @@ class ArtifactPage extends React.Component {
    */
   render() {
     const { classes, onArtifactClick } = this.props;
+    const { filters } = this.state;
 
-    const drawer = <FilterDrawer onChange={this.setFilters} />;
+    const drawer = <FilterDrawer filters={filters} onChange={this.setFilters} />;
 
     return (
       <Page selected="map" fullScreen={true}>
