@@ -109,7 +109,7 @@ class Search extends React.Component {
     loaded: false,
     page: 0,
     rowsPerPage,
-    filters: takeOrElse(JSON.parse(window.sessionStorage.filters), [])
+    filters: takeOrElse(JSON.parse(window.sessionStorage.getItem('filters')), [])
   };
 
   async componentWillMount() {
@@ -227,7 +227,7 @@ class Search extends React.Component {
   }
 
   setFilters = filters => {
-    window.sessionStorage.filters = JSON.stringify(filters);
+    window.sessionStorage.setItem('filters', JSON.stringify(filters));
     this.setState({
       ...this.state,
       filters
