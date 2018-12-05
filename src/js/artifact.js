@@ -175,9 +175,19 @@ export function createArtifact(rawData) {
   if (typeof content === 'string') {
     data = { ...rawData, content: JSON.parse(rawData.content) };
   }
-  const { image_url, height_cm, approximate_year } = data.content;
+  const {
+    image_url,
+    height_cm,
+    distance_from_ground_cm,
+    approximate_year,
+    amount_donated,
+    cost_estimate
+  } = data.content;
   const imageUrl = isValidDatum(image_url) ? image_url : placeholderImage;
-  const heightCM = isValidDatum(`${height_cm}`) ? data.content.height_cm : -1;
+  const heightCM = isValidDatum(`${height_cm}`) ? height_cm : -1;
+  const heightFromGroundCM = isValidDatum(`${distance_from_ground_cm}`)
+    ? distance_from_ground_cm
+    : -1;
   const year = isValidDatum(approximate_year) ? approximate_year : 'Unknown';
   const artifact = {
     data,
@@ -191,12 +201,13 @@ export function createArtifact(rawData) {
       },
       type: data.content.type,
       subtype: data.content.subtype,
-      amountNeeded: 0, // Pending any way to actually store this
-      amountDonated: 0, // Pending any way to actually store this
+      amountNeeded: cost_estimate,
+      amountDonated: amount_donated,
       coverImage: imageUrl,
       description: '',
       descriptionLong: '',
-      heightCM
+      heightCM,
+      heightFromGroundCM
     }
   };
   const specific = createSpecificArtifact(artifact.data);
@@ -246,4 +257,103 @@ export function containsKeyword(artifact, keyword) {
   const { name, description, descriptionLong } = artifact;
   const fields = iterator([name, description, descriptionLong]);
   return fields.map(field => field.toLowerCase()).any(field => field.indexOf(keyword) >= 0);
+}
+
+export const FilterType = {
+  EQ: '=',
+  NEQ: '≠',
+  GT: '>',
+  GTE: '≥',
+  LT: '<',
+  LTE: '≤'
+};
+
+function filterNumber(field, type, matches) {
+  if (type === FilterType.EQ) {
+    if (field != matches) {
+      return false;
+    }
+  } else if (type === FilterType.NEQ) {
+    if (field == matches) {
+      return false;
+    }
+  } else if (type === FilterType.GT) {
+    if (field <= matches) {
+      return false;
+    }
+  } else if (type === FilterType.GTE) {
+    if (field < matches) {
+      return false;
+    }
+  } else if (type === FilterType.LT) {
+    if (field >= matches) {
+      return false;
+    }
+  } else if (type === FilterType.LTE) {
+    if (field > matches) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function filterArtifact(artifact, filters, options = defaultOptions) {
+  if (filters.length === 0 && options.hideAllIfNoFilters) {
+    return false;
+  }
+  const types = [];
+  const notTypes = [];
+  const sestieri = [];
+  const notSestieri = [];
+  for (const { option, type, matches } of filters) {
+    if (option === 'year') {
+      const { year } = artifact;
+      if (!filterNumber(year, type, matches)) {
+        return false;
+      }
+    } else if (option === 'height') {
+      const { heightCM } = artifact;
+      if (!filterNumber(heightCM, type, matches)) {
+        return false;
+      }
+    } else if (option === 'fromGround') {
+      const { heightFromGroundCM } = artifact;
+      if (!filterNumber(heightFromGroundCM, type, matches)) {
+        return false;
+      }
+    } else if (option === 'type') {
+      if (type === FilterType.EQ) {
+        types.push(matches);
+      } else if (type === FilterType.NEQ) {
+        notTypes.push(matches);
+      }
+    } else if (option === 'sestiere') {
+      if (type === FilterType.EQ) {
+        sestieri.push(matches);
+      } else if (type === FilterType.NEQ) {
+        notSestieri.push(matches);
+      }
+    }
+  }
+  const { type, sestiere } = artifact;
+  return (
+    (types.length === 0 || types.indexOf(type) >= 0) &&
+    (notTypes.length === 0 || notTypes.indexOf(type) < 0) &&
+    (sestieri.length === 0 || sestieri.indexOf(sestiere) >= 0) &&
+    (notSestieri.length === 0 || notSestieri.indexOf(sestiere) < 0)
+  );
+}
+
+const defaultOptions = {
+  hideAllIfNoFilters: true
+};
+
+export function filterArtifacts(artifacts, filters, options = defaultOptions) {
+  if (filters.length === 0 && options.hideAllIfNoFilters) {
+    return [];
+  } else {
+    return iterator(artifacts)
+      .filter(artifact => filterArtifact(artifact, filters))
+      .collect();
+  }
 }

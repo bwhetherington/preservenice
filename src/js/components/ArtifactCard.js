@@ -13,6 +13,8 @@ import {
 } from '@material-ui/core';
 import { object } from 'prop-types';
 
+import { donateToArtifact } from '../util';
+
 function styles(theme) {
   return {
     card: {
@@ -71,15 +73,15 @@ function ArtifactCard(props) {
             value={(artifact.amountDonated / artifact.amountNeeded) * 100}
           />
           <Typography variant="caption" align="center">
-            ${artifact.amountDonated} / ${artifact.amountNeeded}
+            €{artifact.amountDonated} / €{artifact.amountNeeded}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.actions}>
         <Button size="small" color="primary">
-          Share
+          Like
         </Button>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={donateToArtifact(artifact.id)}>
           Donate
         </Button>
       </CardActions>

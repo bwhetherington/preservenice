@@ -9,17 +9,17 @@ import {
   Drawer,
   Typography,
   Grid,
-  Paper,
   Button,
   List,
   ListItem,
   ListItemText,
   Checkbox
 } from '@material-ui/core';
-import { createMap, artifactTypes } from '../util';
+import { createMap, artifactTypes, FilterType } from '../util';
 import { queryGroupsAsync, filterGroups, queryAll } from '../data';
-import { createArtifact } from '../artifact';
+import { createArtifact, filterArtifacts } from '../artifact';
 import { asyncIterator, iterator } from 'lazy-iters';
+import FilterDrawer from './FilterDrawer';
 
 function styles(theme) {
   return {
@@ -74,18 +74,21 @@ class ArtifactPage extends React.Component {
     filter: createMap(artifactTypes, _ => false),
     showFilters: false,
     artifacts: [],
-    shownArtifacts: []
+    shownArtifacts: [],
+    filters: []
   };
 
-  componentDidMount() {}
-
-  async loadArtifacts() {
+  async componentDidMount() {
     const query = asyncIterator(queryAll());
-    const artifacts = await query.collect();
+    const artifacts = await query
+      .map(createArtifact)
+      .filter(hasValidCoords)
+      .collect();
     this.setState({
       ...this.state,
       artifacts
     });
+    this.setFilters(this.state.filters);
   }
 
   /**
@@ -106,16 +109,6 @@ class ArtifactPage extends React.Component {
       ...this.state,
       showFilters: false
     });
-  };
-
-  showAllArtifacts = () => {
-    const filter = createMap(artifactTypes, _ => true);
-    this.queryArtifacts(filter);
-  };
-
-  hideAllArtifacts = () => {
-    const filter = createMap(artifactTypes, _ => false);
-    this.queryArtifacts(filter);
   };
 
   /**
@@ -160,55 +153,28 @@ class ArtifactPage extends React.Component {
     });
   }
 
+  setFilters = filters => {
+    const shownArtifacts = filterArtifacts(this.state.artifacts, filters);
+    this.setState({
+      ...this.state,
+      filters,
+      shownArtifacts
+    });
+  };
+
   /**
    * Renders the component.
    */
   render() {
     const { classes, onArtifactClick } = this.props;
-    const { showFilters } = this.state;
 
-    // The drawer containing the filter options
-    const filterDrawer = (
-      <Drawer
-        variant="permanent"
-        open={showFilters}
-        onClose={this.hideDrawer}
-        className={classes.drawer}
-      >
-        <div className={classes.filterTitle}>
-          <Typography paragraph variant="title" align="center">
-            Artifacts
-          </Typography>
-          <Grid container spacing={16}>
-            <Grid item xs={6}>
-              <Button size="small" onClick={this.showAllArtifacts} className={classes.filterButton}>
-                All
-              </Button>
-            </Grid>
-            <Grid item xs={6}>
-              <Button size="small" onClick={this.hideAllArtifacts} className={classes.filterButton}>
-                None
-              </Button>
-            </Grid>
-          </Grid>
-        </div>
-        <Divider />
-        <List className={classes.filterOptions}>
-          {artifactTypes.map(type => (
-            <ListItem dense button key={type} onClick={this.toggleType(type)}>
-              <Checkbox checked={this.state.filter[type]} disableRipple tabIndex={-1} />
-              <ListItemText primary={type} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-    );
+    const drawer = <FilterDrawer onChange={this.setFilters} />;
 
     return (
       <Page selected="map" fullScreen={true}>
-        {filterDrawer}
+        {drawer}
         <div className={classes.content}>
-          <Map onArtifactClick={onArtifactClick} artifacts={this.state.artifacts} />
+          <Map onArtifactClick={onArtifactClick} artifacts={this.state.shownArtifacts} />
         </div>
       </Page>
     );

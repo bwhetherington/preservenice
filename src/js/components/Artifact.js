@@ -15,12 +15,15 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-function styles(_) {
+import { donateToArtifact } from '../util';
+
+function styles(theme) {
   return {
     description: {
       // minWidth: '600px'
     },
     close: {
+      marginLeft: theme.spacing.unit * 3,
       float: 'right'
     }
   };
@@ -32,7 +35,7 @@ function styles(_) {
  */
 function Artifact(props) {
   const { fullScreen, open, onClose, artifact, classes } = props;
-  const { name, description } = artifact;
+  const { name, description, id } = artifact;
   return (
     <Dialog fullScreen={fullScreen} open={open} onClose={onClose}>
       <DialogTitle>
@@ -47,8 +50,10 @@ function Artifact(props) {
         <DialogContentText className={classes.description}>{description}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button color="primary">Share</Button>
-        <Button color="primary">Donate</Button>
+        <Button color="primary">Like</Button>
+        <Button color="primary" onClick={donateToArtifact(id)}>
+          Donate
+        </Button>
       </DialogActions>
     </Dialog>
   );

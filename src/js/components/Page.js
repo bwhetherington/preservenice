@@ -30,8 +30,7 @@ function styles(theme) {
     },
     fullScreen: {
       width: '100%',
-      height: '100%',
-      overflowY: 'hidden'
+      height: '100%'
     },
     content: {
       maxWidth: 1000,

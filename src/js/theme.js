@@ -20,6 +20,12 @@ export const theme = createMuiTheme({
     },
     headline: {
       fontFamily: '"Roboto Slab", serif'
+    },
+    h6: {
+      fontFamily: '"Roboto Slab", serif'
+    },
+    h5: {
+      fontFamily: '"Roboto Slab", serif'
     }
   },
   //   text: {

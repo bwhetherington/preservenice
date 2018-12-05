@@ -5,7 +5,7 @@ import { iterator } from 'lazy-iters';
 //   `http://ckdata2.herokuapp.com/api/v1/dataset.json?group_name=${groupName}`;
 
 function queryUrl(groupName) {
-  return `http://data.preservenice.org/groups/${groupName}`;
+  return `${queryPrefix}/groups/${groupName}`;
 }
 
 // TODO Remove this when the actual database is working
@@ -65,6 +65,7 @@ function sleep(ms) {
 }
 
 const queryPrefix = 'http://data.preservenice.org';
+// const queryPrefix = 'http://localhost:8888';
 
 export async function queryItem(id) {
   const url = `${queryPrefix}/items/${id}`;

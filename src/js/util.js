@@ -140,3 +140,25 @@ export const prioritySample = artifacts =>
   [...artifacts].sort(({ priority: a }, { priority: b }) => b - a);
 
 export const priorityArtifactsSample = take(3, prioritySample(sampleArtifacts));
+
+/**
+ * The identity function.
+ */
+export function id(x) {
+  return x;
+}
+
+export function donateToArtifact(id) {
+  return () => {
+    location.href = `/donate/${id}`;
+  };
+}
+
+export const FilterType = {
+  EQ: '=',
+  NEQ: '!=',
+  GT: '>',
+  GTE: '>=',
+  LT: '<',
+  LTE: '<='
+};

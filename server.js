@@ -19,13 +19,13 @@ app.get(`/${DIR}/*`, (req, res) => {
   res.sendFile(file);
 });
 
-app.get('/main.js', (_, res) => {
+app.get('*/main.js', (_, res) => {
   const main = path.resolve(__dirname, 'dist', 'main.js');
   res.sendFile(main);
 });
 
 // Redirect all routes to static/index.html and then allow react-router to handle it
-app.get('*', (req, res) => {
+app.get('**', (_, res) => {
   const index = path.resolve(__dirname, 'dist', 'index.html');
   res.sendFile(index);
 });

@@ -87,7 +87,7 @@ function About({ classes }) {
             <li>PreserVenice: Preserving the Material Culture of Venice (2011)</li>
             <li>PreserVenice: Preserving Venetian Material Culture (2010)</li>
             <li>PreserVenice: Venetian Public Art (2007)</li>
-            <li>PreserVenice:Preserving Venetian Public Art (2009)</li>
+            <li>PreserVenice: Preserving Venetian Public Art (2009)</li>
             <li>Preserving Venetian Heritage (2008)</li>
             <li>Preserving Venetian Wellheads (2000)</li>
             <li>Public Art Preservation in Venice: Non-public Wellheads and Fountains (2004)</li>

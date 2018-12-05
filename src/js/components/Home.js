@@ -105,7 +105,7 @@ class Home extends React.Component {
           by using our website to collect up-to-date information about the artifacts and to donate
           funds for their restoration.
         </Typography>
-        <Typography>
+        <Typography paragraph>
           The city of Venice, Italy contains a large and unique collection of artifacts that are
           displayed on public view, dating as far back as the year 700 AD. The collection includes
           reliefs, roundels, confraternity insignia, coats of arms, flagpole pedestals,
