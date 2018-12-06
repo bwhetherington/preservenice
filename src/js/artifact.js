@@ -357,3 +357,8 @@ export function filterArtifacts(artifacts, filters, options = defaultOptions) {
       .collect();
   }
 }
+
+export function hasValidCoords(artifact) {
+  const { lat, lng } = artifact.position;
+  return !(lat === null || lat === undefined || lng === null || lng === undefined);
+}

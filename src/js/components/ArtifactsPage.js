@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import { createMap, artifactTypes, FilterType, takeOrElse } from '../util';
 import { queryGroupsAsync, filterGroups, queryAll } from '../data';
-import { createArtifact, filterArtifacts } from '../artifact';
+import { createArtifact, filterArtifacts, hasValidCoords } from '../artifact';
 import { asyncIterator, iterator } from 'lazy-iters';
 import FilterDrawer from './FilterDrawer';
 
@@ -63,22 +63,26 @@ function id(x) {
   return x;
 }
 
-function hasValidCoords(artifact) {
-  const { lat, lng } = artifact.position;
-  return !(lat === null || lat === undefined || lng === null || lng === undefined);
-}
-
 class ArtifactPage extends React.Component {
   state = {
-    filter: createMap(artifactTypes, _ => false),
-    showFilters: false,
     artifacts: [],
     shownArtifacts: [],
     filters: takeOrElse(JSON.parse(window.sessionStorage.getItem('filters')), [])
   };
 
   componentDidMount() {
-    this.loadArtifacts();
+    const artifacts = JSON.parse(window.sessionStorage.getItem('artifacts'));
+    if (artifacts !== null) {
+      this.setState(
+        {
+          ...this.state,
+          artifacts
+        },
+        () => this.setFilters(this.state.filters)
+      );
+    } else {
+      this.loadArtifacts();
+    }
   }
 
   async loadArtifacts() {
@@ -87,11 +91,14 @@ class ArtifactPage extends React.Component {
       .map(createArtifact)
       .filter(hasValidCoords)
       .collect();
-    this.setState({
-      ...this.state,
-      artifacts
-    });
-    this.setFilters(this.state.filters);
+    window.sessionStorage.setItem('artifacts', JSON.stringify(artifacts));
+    this.setState(
+      {
+        ...this.state,
+        artifacts
+      },
+      () => this.setFilters(this.state.filters)
+    );
   }
 
   /**
@@ -113,48 +120,6 @@ class ArtifactPage extends React.Component {
       showFilters: false
     });
   };
-
-  /**
-   * Produces a handler to toggle the specified artifact type on or off.
-   * @param type the artifact type
-   */
-  toggleType(type) {
-    return () => {
-      const { filter } = this.state;
-      const newFilter = {
-        ...filter,
-        [type]: !filter[type]
-      };
-      this.queryArtifacts(newFilter);
-    };
-  }
-
-  /**
-   * Produces a list containing the artifact types that have been selected to be filtered.
-   */
-  filteredTypes(filter) {
-    return Object.keys(filter).filter(key => filter[key]);
-  }
-
-  async queryArtifacts(filter) {
-    let query;
-    if (iterator(Object.values(filter)).all(id)) {
-      query = queryAll();
-    } else {
-      const list = this.filteredTypes(filter);
-      const groups = filterGroups(list);
-      query = queryGroupsAsync(groups);
-    }
-    const artifacts = await asyncIterator(query)
-      .map(createArtifact)
-      .filter(hasValidCoords)
-      .collect();
-    this.setState({
-      ...this.state,
-      filter,
-      artifacts
-    });
-  }
 
   setFilters = filters => {
     window.sessionStorage.setItem('filters', JSON.stringify(filters));

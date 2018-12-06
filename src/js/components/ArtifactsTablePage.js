@@ -15,7 +15,14 @@ import {
   MenuItem
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { types, sestieri, createArtifact, containsKeyword, filterArtifact } from '../artifact';
+import {
+  types,
+  sestieri,
+  createArtifact,
+  containsKeyword,
+  filterArtifact,
+  hasValidCoords
+} from '../artifact';
 import { asyncIterator, iterator } from 'lazy-iters';
 import withArtifactDialog from './withArtifactDialog';
 import { queryAll } from '../data';
@@ -112,14 +119,27 @@ class Search extends React.Component {
     filters: takeOrElse(JSON.parse(window.sessionStorage.getItem('filters')), [])
   };
 
-  async componentWillMount() {
-    const iter = asyncIterator(queryAll());
-    const data = await iter.map(createArtifact).collect();
-    this.setState({
-      ...this.state,
-      loaded: true,
-      data
-    });
+  async componentDidMount() {
+    const cachedArtifacts = JSON.parse(window.sessionStorage.getItem('artifacts'));
+    if (cachedArtifacts) {
+      this.setState({
+        ...this.state,
+        data: cachedArtifacts,
+        loaded: true
+      });
+    } else {
+      const iter = asyncIterator(queryAll());
+      const data = await iter
+        .map(createArtifact)
+        .filter(hasValidCoords)
+        .collect();
+      window.sessionStorage.setItem('artifacts', JSON.stringify(data));
+      this.setState({
+        ...this.state,
+        loaded: true,
+        data
+      });
+    }
   }
 
   changeSearchValue(field, value) {
