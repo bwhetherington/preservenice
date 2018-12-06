@@ -122,12 +122,14 @@ class Search extends React.Component {
   async componentDidMount() {
     const cachedArtifacts = JSON.parse(window.sessionStorage.getItem('artifacts'));
     if (cachedArtifacts) {
+      console.log('loading cached artifact data');
       this.setState({
         ...this.state,
         data: cachedArtifacts,
         loaded: true
       });
     } else {
+      console.log('querying data.preservenice.org');
       const iter = asyncIterator(queryAll());
       const data = await iter
         .map(createArtifact)
@@ -141,91 +143,6 @@ class Search extends React.Component {
       });
     }
   }
-
-  changeSearchValue(field, value) {
-    const { search } = this.state;
-    this.setState({
-      ...this.state,
-      search: {
-        ...search,
-        [field]: value
-      }
-    });
-  }
-
-  handleChangeSearchName = event => {
-    this.changeSearchValue('name', event.target.value);
-  };
-
-  handleChangeSearchKeyword = event => {
-    this.changeSearchValue('keyword', event.target.value);
-  };
-
-  handleChangeSearchType = event => {
-    const { search } = this.state;
-    const type = event.target.value;
-    this.setState({
-      ...this.state,
-      search: {
-        ...search,
-        type
-      }
-    });
-  };
-
-  handleChangeSearchSestiere = event => {
-    const { search } = this.state;
-    const sestiere = event.target.value;
-    this.setState({
-      ...this.state,
-      search: {
-        ...search,
-        sestiere
-      }
-    });
-  };
-
-  handleChangeSearchHeight = event => {
-    const { search } = this.state;
-    const value = event.target.value;
-    const height = value.length > 0 ? Number.parseFloat(event.target.value) : value;
-    this.setState({
-      ...this.state,
-      search: {
-        ...search,
-        height
-      }
-    });
-  };
-
-  handleChangeSearchTolerance = event => {
-    const { search } = this.state;
-    const value = event.target.value;
-    const tolerance = value.length > 0 ? Number.parseFloat(event.target.value) : value;
-    this.setState({
-      ...this.state,
-      search: {
-        ...search,
-        tolerance
-      }
-    });
-  };
-
-  handleSearch = () => {
-    const { search } = this.state;
-    this.setState({
-      ...this.state,
-      activeFilter: search
-    });
-  };
-
-  handleClear = () => {
-    this.setState({
-      ...this.state,
-      search: defaultFilter,
-      activeFilter: defaultFilter
-    });
-  };
 
   handleChangePage = (_, page) => {
     this.setState({

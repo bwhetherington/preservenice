@@ -97,10 +97,17 @@ class CreateFilterChipInner extends React.Component {
     const { onChange } = this.props;
     const { value } = event.target;
     if (value !== this.state.option) {
-      onChange({
-        ...defaultFilterChipOptions,
-        option: value
-      });
+      this.setState(
+        {
+          ...this.state,
+          option: value
+        },
+        () =>
+          onChange({
+            ...defaultFilterChipOptions,
+            option: value
+          })
+      );
     }
   };
 
