@@ -46,10 +46,15 @@ function article(word) {
 
 function createDefault(basicType, rawData) {
   const { content } = rawData;
-  const { material, sestiere, approximate_year, subtype } = content;
+  const { material, sestiere, approximate_year, subtype, general_subject } = content;
   const type = isValidDatum(subtype) ? subtype.toLowerCase() : basicType.toLowerCase();
   const yearLabel = isValidDatum(approximate_year) ? ` from ${approximate_year}` : '';
-  const description = `${article(type)} ${type} made of ${material}${yearLabel} in ${sestiere}.`;
+  const subjectLabel = isValidDatum(general_subject)
+    ? ` It depicts ${article(general_subject).toLowerCase()} ${general_subject}.`
+    : '';
+  const description = `${article(
+    type
+  )} ${type} made of ${material}${yearLabel} in ${sestiere}.${subjectLabel}`;
   return {
     type: basicType,
     sestiere,
@@ -60,12 +65,13 @@ function createDefault(basicType, rawData) {
 
 function createCoatOfArms(rawData) {
   const { content } = rawData;
-  const { sestiere, family, approximate_year, material } = content;
+  const { sestiere, family, approximate_year, material, general_subject } = content;
   const familyLabel = isValidDatum(family) ? `${family} family ` : '';
   const yearLabel = isValidDatum(approximate_year) ? ` from ${approximate_year}` : '';
+  const subjectLabel = isValidDatum(general_subject) ? ` It depicts a ${general_subject}.` : '';
   const description = `${article(
     familyLabel
-  )} ${familyLabel}coat of arms${yearLabel} made of ${material} in ${sestiere}.`;
+  )} ${familyLabel}coat of arms${yearLabel} made of ${material} in ${sestiere}.${subjectLabel}`;
   return {
     type: 'Coat of Arms',
     sestiere,
@@ -92,10 +98,13 @@ function createInscription(rawData) {
 
 function createOther(rawData) {
   const { content } = rawData;
-  const { material, sestiere, approximate_year, subtype } = content;
+  const { material, sestiere, approximate_year, subtype, general_subject } = content;
   const type = isValidDatum(subtype) ? subtype.toLowerCase() : 'artifact';
   const yearLabel = isValidDatum(approximate_year) ? ` from ${approximate_year}` : '';
-  const description = `${article(type)} ${type} made of ${material}${yearLabel} in ${sestiere}.`;
+  const subjectLabel = isValidDatum(general_subject) ? ` It depicts a ${general_subject}.` : '';
+  const description = `${article(
+    type
+  )} ${type} made of ${material}${yearLabel} in ${sestiere}.${subjectLabel}`;
   return {
     type: 'Other',
     sestiere,
@@ -126,13 +135,14 @@ function createSymbol(rawData) {
 
 function createFountain(rawData) {
   const { content } = rawData;
-  const { material, sestiere_or_Island, approximate_year, subtype } = content;
+  const { material, sestiere_or_Island, approximate_year, general_subject } = content;
   // const type = isValidDatum(subtype) ? subtype.toLowerCase() : 'fountain';
   const type = 'fountain';
   const yearLabel = isValidDatum(approximate_year) ? ` from ${approximate_year}` : '';
+  const subjectLabel = isValidDatum(general_subject) ? ` It depicts a ${general_subject}.` : '';
   const description = `${article(
     type
-  )} ${type} made of ${material}${yearLabel} in ${sestiere_or_Island}.`;
+  )} ${type} made of ${material}${yearLabel} in ${sestiere_or_Island}.${subjectLabel}`;
   return {
     type: 'Fountain',
     sestiere: sestiere_or_Island,
@@ -143,12 +153,13 @@ function createFountain(rawData) {
 
 function createFlagstaffPedestal(rawData) {
   const { content } = rawData;
-  const { sestiere, body_material, approximate_year, subtype } = content;
+  const { sestiere, body_material, approximate_year, subtype, general_subject } = content;
   const type = isValidDatum(subtype) ? subtype.toLowerCase() : 'flagstaff pedestal';
   const yearLabel = isValidDatum(approximate_year) ? ` from ${approximate_year}` : '';
+  const subjectLabel = isValidDatum(general_subject) ? ` It depicts a ${general_subject}.` : '';
   const description = `${article(
     type
-  )} ${type} made of ${body_material}${yearLabel} in ${sestiere}.`;
+  )} ${type} made of ${body_material}${yearLabel} in ${sestiere}.${subjectLabel}`;
   return {
     type: 'Flagstaff Pedestal',
     sestiere,
