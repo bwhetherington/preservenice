@@ -25,6 +25,11 @@ function styles(theme) {
     close: {
       marginLeft: theme.spacing.unit * 3,
       float: 'right'
+    },
+    media: {
+      objectFit: 'cover',
+      width: '100%',
+      height: '250px'
     }
   };
 }
@@ -35,7 +40,7 @@ function styles(theme) {
  */
 function Artifact(props) {
   const { fullScreen, open, onClose, artifact, classes } = props;
-  const { name, description, id } = artifact;
+  const { name, description, id, coverImage } = artifact;
   return (
     <Dialog fullScreen={fullScreen} open={open} onClose={onClose}>
       <DialogTitle>
@@ -47,6 +52,7 @@ function Artifact(props) {
         </span>
       </DialogTitle>
       <DialogContent>
+        <img className={classes.media} src={coverImage} />
         <DialogContentText className={classes.description}>{description}</DialogContentText>
       </DialogContent>
       <DialogActions>

@@ -4,7 +4,7 @@ import Page from './Page';
 import { object } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography, Grid } from '@material-ui/core';
-import Instafeed from 'react-instafeed';
+import Separator from './Separator';
 
 function displayInsta() {
   const instafeedTarget = 'instafeed';
@@ -35,22 +35,20 @@ function styles(_) {
 function Contact(_) {
   return (
     <Page selected="contact">
-      <Typography paragraph variant="headline">
-        Contact us, Help us preserve Venetian heritage!
+      <Typography variant="headline" align="center">
+        Contact Us
       </Typography>
-      <Typography paragraph variant="title">
-        Follow our Instagram At:{' '}
+      <Separator />
+      <Typography paragraph align="center">
+        Follow our Instagram at:{' '}
         <a href="https://www.instagram.com/preservenice/?hl=en">@preservenice</a>
       </Typography>
-      <Typography paragraph variant="title">
-        Like Us on Facebook: <a href="https://www.facebook.com/preservenice/">Facebook</a>
+      <Typography paragraph align="center">
+        Like us on Facebook: <a href="https://www.facebook.com/preservenice/">Facebook</a>
         {/**TODO add real link to facebook and email! */}
       </Typography>
-      <Typography paragraph variant="title">
+      <Typography paragraph align="center">
         Email us: <a href="ve18.pv@gmail.com">ve18.pv@gmail.com</a>
-      </Typography>
-      <Typography paragraph variant="title" align="center">
-        PreserVenice Instafeed
       </Typography>
     </Page>
   );

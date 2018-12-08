@@ -34,7 +34,7 @@ function styles(theme) {
       float: 'right'
     },
     description: {
-      height: 100,
+      height: '110px',
       overflowY: 'scroll'
     },
     title: {

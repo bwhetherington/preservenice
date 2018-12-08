@@ -43,7 +43,7 @@ function styles(theme) {
     },
     bannerText: {
       color: 'white',
-      textShadow: '0px 0px 2px rgba(0, 0, 0, 0.75)',
+      textShadow: '0px 0px 4px rgba(0, 0, 0, 0.85)',
       textAlign: 'center',
       userSelect: 'none'
     },
