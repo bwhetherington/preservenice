@@ -313,9 +313,13 @@ export function filterArtifact(artifact, filters, options = defaultOptions) {
     return false;
   }
   const types = [];
+  let allTypes = false;
   const notTypes = [];
+  let noTypes = false;
   const sestieri = [];
+  let allSestieri = false;
   const notSestieri = [];
+  let noSestieri = false;
   for (const { option, type, matches } of filters) {
     if (option === 'year') {
       const { year } = artifact;
@@ -334,24 +338,40 @@ export function filterArtifact(artifact, filters, options = defaultOptions) {
       }
     } else if (option === 'type') {
       if (type === FilterType.EQ) {
-        types.push(matches);
+        if (matches === 'Any') {
+          allTypes = true;
+        } else if (!allTypes) {
+          types.push(matches);
+        }
       } else if (type === FilterType.NEQ) {
-        notTypes.push(matches);
+        if (matches === 'Any') {
+          noTypes = true;
+        } else if (!noTypes) {
+          notTypes.push(matches);
+        }
       }
     } else if (option === 'sestiere') {
       if (type === FilterType.EQ) {
-        sestieri.push(matches);
+        if (matches === 'Any') {
+          allSestieri = true;
+        } else if (!allSestieri) {
+          sestieri.push(matches);
+        }
       } else if (type === FilterType.NEQ) {
-        notSestieri.push(matches);
+        if (matches === 'Any') {
+          noSestieri = true;
+        } else if (!noSestieri) {
+          notSestieri.push(matches);
+        }
       }
     }
   }
   const { type, sestiere } = artifact;
   return (
-    (types.length === 0 || types.indexOf(type) >= 0) &&
-    (notTypes.length === 0 || notTypes.indexOf(type) < 0) &&
-    (sestieri.length === 0 || sestieri.indexOf(sestiere) >= 0) &&
-    (notSestieri.length === 0 || notSestieri.indexOf(sestiere) < 0)
+    (allTypes || types.length === 0 || types.indexOf(type) >= 0) &&
+    (!noTypes && (notTypes.length === 0 || notTypes.indexOf(type) < 0)) &&
+    (allSestieri || sestieri.length === 0 || sestieri.indexOf(sestiere) >= 0) &&
+    (!noSestieri && (notSestieri.length === 0 || notSestieri.indexOf(sestiere) < 0))
   );
 }
 

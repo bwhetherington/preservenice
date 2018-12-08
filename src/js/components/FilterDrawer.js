@@ -35,8 +35,8 @@ const PropertyType = {
 };
 
 const propertyOptions = {
-  sestiere: sestieri,
-  type: types,
+  sestiere: ['Any'].concat(sestieri),
+  type: ['Any'].concat(types),
   height: PropertyType.CM,
   fromGround: PropertyType.CM,
   year: PropertyType.AD

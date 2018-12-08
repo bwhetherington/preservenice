@@ -39,7 +39,7 @@ function styles(theme) {
       background: 'url(/static/images/pano_small.jpg)',
       backgroundSize: 'cover',
       backgroundPosition: '-300px 0px',
-      padding: '120px'
+      padding: '80px'
     },
     bannerText: {
       color: 'white',
@@ -98,6 +98,22 @@ class Home extends React.Component {
         }
       >
         {/* <img className={classes.scroll} src="/static/pv_scroll_25px_height.png" /> */}
+        <Typography variant="headline" align="center">
+          Artifacts in Need
+        </Typography>
+        <Separator />
+        <Typography paragraph>These artifacts are nearly at their funding goals.</Typography>
+        <Grid container spacing={16} className={classes.cards}>
+          {artifactSample.map(artifact => (
+            <Grid item key={artifact.name} xs={4}>
+              <ArtifactCard
+                artifact={artifact}
+                className={classes.card}
+                onClick={onArtifactClick(artifact)}
+              />
+            </Grid>
+          ))}
+        </Grid>
         <Separator />
         <Typography paragraph>
           PreserVenice is a non-profit organization devoted to the preservation and restoration of
@@ -117,22 +133,6 @@ class Home extends React.Component {
           today's citizens through a combination of high technology, social networks, and citizen
           engagement.
         </Typography>
-        <Typography variant="headline" align="center">
-          Artifacts in Need
-        </Typography>
-        <Separator />
-        <Typography paragraph>These artifacts are nearly at their funding goals.</Typography>
-        <Grid container spacing={16} className={classes.cards}>
-          {artifactSample.map(artifact => (
-            <Grid item key={artifact.name} xs={4}>
-              <ArtifactCard
-                artifact={artifact}
-                className={classes.card}
-                onClick={onArtifactClick(artifact)}
-              />
-            </Grid>
-          ))}
-        </Grid>
       </Page>
     );
   }

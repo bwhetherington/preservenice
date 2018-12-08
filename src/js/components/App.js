@@ -9,6 +9,7 @@ import Home from './Home';
 import NotFound from './NotFound';
 import Search from './Search';
 import Donate from './Donate';
+import DonateArtifact from './DonateArtifact';
 
 /**
  * This component wraps an Artifact component, extracting the artifact ID from the routing
@@ -39,7 +40,7 @@ function DonateHandler(_) {
   return (
     <Switch>
       <Route exact path="/donate" component={Donate} />
-      <Route path="/donate/:id" component={Donate} />
+      <Route path="/donate/:id" component={DonateArtifact} />
     </Switch>
   );
 }

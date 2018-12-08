@@ -67,6 +67,10 @@ const links = {
   contact: {
     name: 'Contact',
     handler: onClick('/contact')
+  },
+  donate: {
+    name: 'Donate',
+    handler: onClick('/donate')
   }
 };
 
