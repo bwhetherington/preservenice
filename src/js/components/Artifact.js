@@ -41,6 +41,7 @@ function styles(theme) {
 function Artifact(props) {
   const { fullScreen, open, onClose, artifact, classes } = props;
   const { name, description, id, coverImage } = artifact;
+  // const image = `https://s3.amazonaws.com/cityknowledge/testimages/${id}-thumb.jpg`;
   return (
     <Dialog fullScreen={fullScreen} open={open} onClose={onClose}>
       <DialogTitle>

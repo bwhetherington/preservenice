@@ -76,10 +76,11 @@ export async function queryItem(id) {
 
 export async function* querySample() {
   try {
-    console.log('Requesting sample');
+    console.log('Requesting sample ...');
     const res = await fetch(`${queryPrefix}/sample`);
-    console.log('Response received');
+    console.log('Response received ...');
     const data = await res.json();
+    console.log('Data parsed as JSON');
 
     // Check if data is empty
     // This is done because if the web server was sleeping when we requested the data, it will wake
@@ -94,6 +95,7 @@ export async function* querySample() {
       yield* querySample();
     } else {
       // We received results
+      console.log('Yielding results');
       yield* data;
     }
   } catch (ex) {
@@ -103,10 +105,11 @@ export async function* querySample() {
 
 export async function* queryAll() {
   try {
-    console.log('Requesting all data');
+    console.log('Requesting all data ...');
     const res = await fetch(`${queryPrefix}/all`);
-    console.log('Response received');
+    console.log('Response received ...');
     const data = await res.json();
+    console.log('Data parsed as JSON ...');
 
     // Check if data is empty
     // This is done because if the web server was sleeping when we requested the data, it will wake
@@ -121,6 +124,7 @@ export async function* queryAll() {
       yield* queryAll();
     } else {
       // We received results
+      console.log('Data ready to be yielded ...');
       yield* data;
     }
   } catch (ex) {
