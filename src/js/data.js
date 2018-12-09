@@ -64,8 +64,8 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(ms, resolve));
 }
 
-// const queryPrefix = 'http://data.preservenice.org';
-const queryPrefix = 'http://localhost:8888';
+const queryPrefix = 'http://data.preservenice.org';
+// const queryPrefix = 'http://localhost:8888';
 
 export async function queryItem(id) {
   const url = `${queryPrefix}/items/${id}`;
