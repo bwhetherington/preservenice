@@ -12,17 +12,17 @@ function queryUrl(groupName) {
 // const queryUrl = groupName => `/static/json/${groupName}.json`;
 
 export const groups = [
-  'PV DATA Feb 2013 KM Erratic Sculpture Coats of Arms',
-  'PV DATA Feb 2013 KM Erratic Sculpture Crosses',
-  'PV DATA Feb 2013 KM Erratic Sculpture Decorations',
-  'PV DATA Feb 2013 KM Erratic Sculpture Fragments',
-  'PV DATA Feb 2013 KM Erratic Sculpture Inscriptions',
-  'PV DATA Feb 2013 KM Erratic Sculpture Other',
-  'PV DATA Feb 2013 KM Erratic Sculpture Patere',
-  'PV DATA Feb 2013 KM Erratic Sculpture Reliefs',
-  'PV DATA Feb 2013 KM Erratic Sculpture Sculptures',
-  'PV DATA Feb 2013 KM Erratic Sculpture Street Altars',
-  'PV DATA Feb 2013 KM Erratic Sculpture Symbols',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Coats of Arms',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Crosses',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Decorations',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Fragments',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Inscriptions',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Other',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Patere',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Reliefs',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Sculptures',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Street Altars',
+  'PV MERGE Mar 2013 KM Erratic Sculpture Symbols',
   'PV FINAL DATA 2014 KM Fountains',
   'PV DATA Apr 2013 KM Flagstaff Pedestals'
 ];
@@ -64,8 +64,8 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(ms, resolve));
 }
 
-const queryPrefix = 'http://data.preservenice.org';
-// const queryPrefix = 'http://localhost:8888';
+// const queryPrefix = 'http://data.preservenice.org';
+const queryPrefix = 'http://localhost:8888';
 
 export async function queryItem(id) {
   const url = `${queryPrefix}/items/${id}`;

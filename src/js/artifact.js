@@ -194,7 +194,13 @@ export function createArtifact(rawData) {
     amount_donated,
     cost_estimate
   } = data.content;
-  const imageUrl = isValidDatum(image_url) ? image_url : placeholderImage;
+  const weirdImageUrl = data.content['PV IMAGES Mar 2013 KM Erratic Sculpture (all sestieri)'];
+  const imageUrl = isValidDatum(weirdImageUrl)
+    ? `https://s3.amazonaws.com/cityknowledge/testimages/${weirdImageUrl}-thumb.jpg`
+    : isValidDatum(image_url)
+    ? image_url
+    : placeholderImage;
+  console.log(imageUrl);
   const heightCM = isValidDatum(`${height_cm}`) ? height_cm : -1;
   const heightFromGroundCM = isValidDatum(`${distance_from_ground_cm}`)
     ? distance_from_ground_cm
