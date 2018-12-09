@@ -67,7 +67,7 @@ function Page(props) {
   } else {
     return (
       <div className={classes.root}>
-        <Navbar selected={selected} position="sticky" />
+        <Navbar selected={selected} position="fixed" />
         <div className={classes.wrapper}>
           {banner}
           <div className={classes.content}>{children}</div>
