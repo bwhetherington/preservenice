@@ -68,13 +68,15 @@ function Page(props) {
     return (
       <div className={classes.root}>
         <Navbar selected={selected} position="sticky" />
-        {banner}
-        <div className={classes.content}>{children}</div>
-        <footer className={classes.footer}>
-          <Typography variant="caption" align="right">
-            Copyright © 2018 · PreserVenice · All Rights Reserved
-          </Typography>
-        </footer>
+        <div className={classes.wrapper}>
+          {banner}
+          <div className={classes.content}>{children}</div>
+          <footer className={classes.footer}>
+            <Typography variant="caption" align="right">
+              Copyright © 2018 · PreserVenice · All Rights Reserved
+            </Typography>
+          </footer>
+        </div>
       </div>
     );
   }

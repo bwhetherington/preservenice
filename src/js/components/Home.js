@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { createArtifact } from '../artifact';
 import { asyncIterator } from 'lazy-iters';
 import { querySample } from '../data';
+import RestorationCard from './RestorationCard';
 
 function styles(theme) {
   return {
@@ -57,6 +58,25 @@ function styles(theme) {
     }
   };
 }
+
+const fakeRestorations = [
+  {
+    image: 'http://preservenice.org/images/restorations/cn248.png',
+    description: (
+      <Typography>
+        Stemma CN248 was restored in 2000 with the help of PreserVenice and sixteen donors.
+      </Typography>
+    )
+  },
+  {
+    image: 'http://preservenice.org/images/restorations/cn283.png',
+    description: (
+      <Typography>
+        Relief CN283 was restored in 1999 with the help of PreserVenice and three donors.
+      </Typography>
+    )
+  }
+];
 
 class Home extends React.Component {
   state = {
@@ -121,7 +141,6 @@ class Home extends React.Component {
           Artifacts in Need
         </Typography>
         <Separator />
-        <Typography paragraph>These artifacts are nearly at their funding goals.</Typography>
         <Grid container spacing={16} className={classes.cards}>
           {artifactSample.map(artifact => (
             <Grid item key={artifact.name} xs={4}>
@@ -130,6 +149,17 @@ class Home extends React.Component {
                 className={classes.card}
                 onClick={onArtifactClick(artifact)}
               />
+            </Grid>
+          ))}
+        </Grid>
+        <Typography variant="headline" align="center">
+          Completed Restorations
+        </Typography>
+        <Separator />
+        <Grid container spacing={16} className={classes.cards}>
+          {fakeRestorations.map(restoration => (
+            <Grid item key={restoration.image} xs={16}>
+              <RestorationCard restoration={restoration} />
             </Grid>
           ))}
         </Grid>
