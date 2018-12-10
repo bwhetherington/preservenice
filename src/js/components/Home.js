@@ -118,7 +118,7 @@ class Home extends React.Component {
         }
       >
         {/* <img className={classes.scroll} src="/static/pv_scroll_25px_height.png" /> */}
-        <Separator />
+        {/* <Separator />  */}
         <Typography paragraph>
           PreserVenice is a non-profit organization devoted to the preservation and restoration of
           public art in Venice, Italy. Please help us preserve this precious collection of heritage
