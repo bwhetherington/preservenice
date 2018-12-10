@@ -25,7 +25,8 @@ function styles(theme) {
     },
     root: {
       height: '100%',
-      maxWidth: '100%'
+      maxWidth: '100%',
+      marginTop: '48px'
       // animation: `${fadeInID} ease-in 1s`
     },
     fullScreen: {

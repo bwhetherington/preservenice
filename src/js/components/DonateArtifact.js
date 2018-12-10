@@ -19,6 +19,7 @@ import { queryItem } from '../data';
 import { createArtifact } from '../artifact';
 
 import { id } from '../util';
+import Separator from './Separator';
 
 function styles(theme) {
   return {};
@@ -27,12 +28,18 @@ function styles(theme) {
 function artifactAreaStyles(theme) {
   return {
     content: {
-      margin: 'auto'
+      margin: 'auto',
+      width: '600px'
     },
     progress: {
       maxWidth: '400px',
       marginBottom: theme.spacing.unit,
       margin: 'auto'
+    },
+    media: {
+      objectFit: 'cover',
+      width: '100%',
+      paddingBottom: theme.spacing.unit
     }
   };
 }
@@ -45,6 +52,8 @@ function ArtifactAreaInner(props) {
       <Typography variant="h6" align="center">
         {artifact.name}
       </Typography>
+      <Separator />
+      <img className={classes.media} src={artifact.coverImage} />
       <Typography paragraph align="center">
         {artifact.description}
       </Typography>
@@ -118,11 +127,9 @@ const months = [
 const years = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
 
 const defaultState = {
-  amount: '',
-  cardNumber: '',
-  code: '',
-  expMonth: '',
-  expYear: ''
+  name: '',
+  email: '',
+  taxId: ''
 };
 
 class DonateAreaInner extends React.Component {
@@ -170,9 +177,9 @@ class DonateAreaInner extends React.Component {
     return (
       <Card className={classes.content}>
         <CardHeader
-          title="Card Information"
+          title="Tax Information"
           titleTypographyProps={{ variant: 'h6', align: 'center' }}
-          subheader="Please enter your credit card information."
+          subheader="Please enter the following information in order to generate a tax receipt for your donation."
           subheaderTypographyProps={{ variant: 'subtitle1', align: 'center' }}
         />
         <CardContent>
@@ -180,13 +187,9 @@ class DonateAreaInner extends React.Component {
             <span className={classes.textFieldContainer}>
               <TextField
                 className={classes.textField}
-                type="number"
-                onChange={this.onChange('amount', parseNumber)}
+                onChange={this.onChange('name', parseNumber)}
                 value={amount}
-                label="Donation Amount"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">€</InputAdornment>
-                }}
+                label="Name"
               />
             </span>
           </div>
@@ -194,9 +197,9 @@ class DonateAreaInner extends React.Component {
             <span className={classes.textFieldContainer}>
               <TextField
                 className={classes.textField}
-                onChange={this.onChange('cardNumber')}
-                value={cardNumber}
-                label="Card Number"
+                onChange={this.onChange('email', parseNumber)}
+                value={amount}
+                label="Email Address"
               />
             </span>
           </div>
@@ -204,41 +207,10 @@ class DonateAreaInner extends React.Component {
             <span className={classes.textFieldContainer}>
               <TextField
                 className={classes.textField}
-                type="number"
-                onChange={this.onChange('code', parseNumber)}
-                value={code}
-                label="Security Code"
+                onChange={this.onChange('taxId', parseNumber)}
+                value={amount}
+                label="Tax ID"
               />
-            </span>
-            <span className={classes.textFieldContainer}>
-              <TextField
-                className={classes.textField}
-                select
-                onChange={this.onChange('expMonth')}
-                value={expMonth}
-                label="Exp. Month"
-              >
-                {months.map(month => (
-                  <MenuItem key={month} value={month}>
-                    {month}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </span>
-            <span className={classes.textFieldContainer}>
-              <TextField
-                className={classes.textField}
-                select
-                onChange={this.onChange('expYear')}
-                value={expYear}
-                label="Exp. Year"
-              >
-                {years.map(year => (
-                  <MenuItem key={year} value={year}>
-                    {year}
-                  </MenuItem>
-                ))}
-              </TextField>
             </span>
           </div>
         </CardContent>

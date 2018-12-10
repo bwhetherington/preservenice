@@ -29,7 +29,8 @@ function styles(theme) {
     media: {
       objectFit: 'cover',
       width: '100%',
-      height: '250px'
+      height: '250px',
+      paddingBottom: theme.spacing.unit
     }
   };
 }
